@@ -11,19 +11,22 @@ class TestCase:
         print("结束计算")
 
     @pytest.mark.parametrize("a,b,expect", [
-        (1, 2, 3), (-1, -2, -3), (10, 20, 30)
+        (1, 2, 3), (-1, -2, -3), (100, 200, 300)
     ], ids=["int", "minus", "bigint"])
+    @pytest.mark.demo
     def test_add(self, a, b, expect):
         assert expect == self.calc.add(a, b)
 
     @pytest.mark.parametrize("a,b,expect", [
-        (3, 2, 1), (-3, -2, -1), (30, 20, 10)
+        (3, 2, 1), (-3, -2, -1), (300, 200, 100)
     ], ids=["int", "minus", "bigint"])
+    @pytest.mark.smoke
+    @pytest.mark.two
     def test_sub(self, a, b, expect):
         assert expect == self.calc.sub(a, b)
 
     @pytest.mark.parametrize("a,b,expect", [
-        (1, 2, 2), (-1, -2, 2), (10, 20, 200)
+        (1, 2, 2), (-1, -2, 2), (100, 200, 20000)
     ], ids=["int", "minus", "bigint"])
     def test_mul(self, a, b, expect):
         assert expect == self.calc.mul(a, b)
