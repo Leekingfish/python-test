@@ -2,8 +2,8 @@ import pytest
 from pythoncode.calculator import Calculator
 
 
-@pytest.fixture(params=["***参数1***", "***参数2****"])
-def myfixture(request):
+@pytest.fixture(scope="class")
+def myfixture():
     # print(f"\n执行我的fixture,里面的参数是:{request.param}\n")
     print("开始计算")
     yield  # 类似return
