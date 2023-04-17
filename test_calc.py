@@ -1,5 +1,17 @@
-import pytest
+import pytest, yaml
 from pythoncode.calculator import Calculator
+
+
+def get_data():
+    with open("./data.yml") as f:
+        datas = yaml.safe_load(f)
+        print(datas)
+        add_datas = datas["datas1"]
+        sub_datas = datas["datas2"]
+        mul_datas = datas["datas3"]
+        div_datas = datas["datas4"]
+        ids = datas["myid"]
+        return add_datas, sub_datas, mul_datas, div_datas, ids
 
 
 class TestCase:
@@ -10,33 +22,29 @@ class TestCase:
     def teardown_class(self):
         print("结束计算")
 
-    @pytest.mark.parametrize("a,b,expect", [
-        (1, 2, 3), (-1, -2, -3), (100, 200, 300)
-    ], ids=["int", "minus", "bigint"])
-    @pytest.mark.demo
+    @pytest.mark.parametrize("a,b,expect",
+                             get_data()[0],
+                             ids=get_data()[4])
     def test_add(self, a, b, expect):
         assert expect == self.calc.add(a, b)
 
-    @pytest.mark.parametrize("a,b,expect", [
-        (3, 2, 1), (-3, -2, -1), (300, 200, 100)
-    ], ids=["int", "minus", "bigint"])
-    @pytest.mark.smoke
-    @pytest.mark.two
+    @pytest.mark.parametrize("a,b,expect",
+                             get_data()[1],
+                             ids=get_data()[4])
     def test_sub(self, a, b, expect):
         assert expect == self.calc.sub(a, b)
 
-    @pytest.mark.parametrize("a,b,expect", [
-        (1, 2, 2), (-1, -2, 2), (100, 200, 20000)
-    ], ids=["int", "minus", "bigint"])
+    @pytest.mark.parametrize("a,b,expect",
+                             get_data()[2],
+                             ids=get_data()[4])
     def test_mul(self, a, b, expect):
         assert expect == self.calc.mul(a, b)
 
-    @pytest.mark.parametrize("a,b,expect", [
-        (4, 2, 2), (-4, -2, 2), (40, 20, 2)
-    ], ids=["int", "minus", "bigint"])
+    @pytest.mark.parametrize("a,b,expect",
+                             get_data()[3],
+                             ids=get_data()[4])
     def test_div(self, a, b, expect):
         assert expect == self.calc.div(a, b)
 
-
-if __name__ == '__main__':
-    pytest.main("-sv")
+# if __name__ == '__main__':
+#     pytest.main("-sv")
